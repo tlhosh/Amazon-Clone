@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Amazon.co.za - Shop Everything</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>Your Basket</h2>
+    <button class="cart-close" onclick="closeCart()">X</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal" style="display:none">
+  <div class="checkout-modal" id="checkoutContent"></div>
+</div>
+<div class="modal-overlay" id="authModal" style="display:none">
+  <div class="checkout-modal" id="authContent"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-main">
+    <div class="logo" onclick="showPage('home')" style="background: transparent;">
+      <img src="icons/Amazon_logo.svg.png" alt="Amazon wordmark logo displayed in page header for Amazon.co.za" width="100" height="30" style="filter: brightness(0) invert(1);"/>
+    </div>
+
+    <div class="nav-location" onclick="showToast('Location is demo only')">
+      <div class="nav-location-icon">
+        <img src="icons/map-pin.svg" alt="Location indicator pin in header showing delivery location set to Cape Town 7505" width="24" height="24" style="filter: invert(1);"/>
+      </div>
+      <div class="nav-location-text">
+        <small>Delivering to Cape Town 7505</small>
+        <strong>Update location</strong>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <select class="search-cat" id="searchCat">
+        <option>All</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Home</option>
+        <option>Books</option>
+        <option>Sports</option>
+      </select>
+      <input class="search-input" id="searchInput" type="text"
+        placeholder="Search Amazon.co.za"
+        oninput="handleSearch()"/>
+      <button class="search-btn" onclick="handleSearch()">
+        <img src="icons/search.svg" alt="Magnifying glass icon on search button in navigation bar" width="20" height="20" style="filter: invert(1);"/>
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <button class="dark-mode-toggle" id="darkModeToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode" aria-pressed="false">
+        <span class="dark-mode-track">
+          <span class="dark-mode-icon">L</span>
+          <span class="dark-mode-icon">D</span>
+          <span class="dark-mode-thumb"></span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showPage('wishlist')">
+        <small>Saved items</small>
+        <strong>Wishlist</strong>
+      </button>
+      <button class="nav-btn" onclick="openAuth()">
+        <small id="accountGreeting">Hello, sign in</small>
+        <strong id="accountLabel">Account &amp; Lists ▾</strong>
+      </button>
+      <button class="nav-btn" onclick="showToast('Orders page is demo only')">
+        <small>Returns</small>
+        <strong>&amp; Orders</strong>
+      </button>
+      <button class="nav-btn cart-btn" onclick="openCart()">
+        <div class="cart-inner">
+          <span class="cart-count" id="cartCount">0</span>
+          <span class="cart-icon">
+            <img src="icons/shopping-cart-svgrepo-com.svg" alt="Shopping cart icon for accessing the product basket" width="40" height="40" style="filter: invert(1);"/>
+          </span>
+          <strong>Basket</strong>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-sub">
+    <div class="nav-sub-links">
+      <a class="nav-sub-all" onclick="filterCat('all')">All</a>
+      <a onclick="showToast('Customer Service is demo only')">Customer Service</a>
+      <a onclick="showPage('deals')">Today's Deals</a>
+      <a onclick="showToast('Keep Shopping is demo only')">Keep Shopping for</a>
+      <a onclick="showToast('Everyday Essentials is demo only')">Everyday Essentials</a>
+      <a onclick="filterCat('Books')">Best Sellers</a>
+      <a onclick="showToast('Shop Mzansi is demo only')">Shop Mzansi</a>
+      <a onclick="showToast('Gift Cards is demo only')">Gift Cards</a>
+      <a onclick="showToast('Sell is demo only')">Sell</a>
+      <a class="nav-sub-highlight" onclick="showToast('Welcome!')">Welcome to Amazon.co.za</a>
+    </div>
+    <button class="nav-sub-side" onclick="showToast('Everyday Essentials')">
+      Everyday Essentials
+    </button>
+  </div>
+</nav>
+
+<main class="home-shell page active" id="page-home">
+
+  <div class="hero-banner">
+    <div class="hero-left">
+      <h1 class="hero-title" id="heroTitle">Everyday Essentials</h1>
+      <p class="hero-sub" id="heroSub">One-stop shop for everything you need</p>
+      <p class="hero-price-tag" id="heroTag">Low prices</p>
+    </div>
+    <div class="hero-products">
+      <img id="heroImg1" src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=130&h=130&fit=crop" alt="Woven basket overflowing with fresh groceries on a bright countertop, conveying abundance and daily household shopping"/>
+      <img id="heroImg2" src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=130&h=130&fit=crop" alt="Baby care items arranged on a nursery shelf with warm soft lighting, evoking tender care and nurturing"/>
+      <img id="heroImg3" src="https://images.unsplash.com/photo-1589883661923-6476cb0ae9f2?w=130&h=130&fit=crop" alt="Pet care supplies neatly organized on a home countertop, reflecting practical and responsible pet ownership"/>
+    </div>
+    <button class="hero-nav hero-prev" onclick="heroPrev()">&#10094;</button>
+    <button class="hero-nav hero-next" onclick="heroNext()">&#10095;</button>
+  </div>
+
+  <div class="panel-grid">
+    <div class="panel-card">
+      <h3 class="panel-title">Shop Headphones &amp; Speakers</h3>
+      <div class="panel-items">
+        <div class="panel-item" onclick="filterCat('Electronics')">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=140&h=105&fit=crop" alt="Black over-ear headphones resting on a wooden desk in a serene workspace, suggesting focused listening"/>
+          <span>Headphones</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Electronics')">
+          <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=140&h=105&fit=crop" alt="Compact portable speaker positioned on a flat surface in a contemporary environment, ready for on-the-go entertainment"/>
+          <span>Portable Speakers</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Electronics')">
+          <img src="https://images.unsplash.com/photo-1545127398-14699f92334b?w=140&h=105&fit=crop" alt="Home audio speaker displayed on a living room table, conveying immersive and room-filling sound quality"/>
+          <span>Home Audio</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Electronics')">
+          <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=140&h=105&fit=crop" alt="Wireless earbuds nestled in an open charging case on a desk bathed in soft warm lighting, suggesting daily use"/>
+          <span>Earbuds</span>
+        </div>
+      </div>
+      <a class="panel-more" onclick="filterCat('Electronics')">Discover more</a>
+    </div>
+
+    <div class="panel-card panel-lighting">
+      <h3 class="panel-title">Shop deals on Lighting</h3>
+      <div class="panel-single" onclick="showPage('deals')">
+        <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&h=500&fit=crop" alt="Ceiling light, bulb, and garden spotlight arranged on blue background representing lighting deals"/>
+      </div>
+      <a class="panel-more" onclick="showPage('deals')">Discover More</a>
+    </div>
+
+    <div class="panel-card">
+      <h3 class="panel-title">Shop Home &amp; Kitchen</h3>
+      <div class="panel-items">
+        <div class="panel-item" onclick="filterCat('Home')">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=140&h=105&fit=crop" alt="Home decor accents arranged on a table in a tastefully styled interior, creating a warm and inviting atmosphere"/>
+          <span>Home Décor</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Home')">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=140&h=105&fit=crop" alt="Kitchen utensils and cookware organized on a bright kitchen counter, ready for culinary preparation"/>
+          <span>Kitchen Tools</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Home')">
+          <img src="https://images.unsplash.com/photo-1585515320310-259814833e62?w=140&h=105&fit=crop" alt="Stainless steel kitchen appliance positioned on a sleek modern counter in a clean, contemporary kitchen"/>
+          <span>Kitchen Appliances</span>
+        </div>
+        <div class="panel-item" onclick="filterCat('Home')">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=140&h=105&fit=crop" alt="Neatly made bed with plush pillows and soft blanket in a cozy bedroom, radiating comfort and relaxation"/>
+          <span>Bedding</span>
+        </div>
+      </div>
+      <a class="panel-more" onclick="filterCat('Home')">Discover more</a>
+    </div>
+
+    <div class="panel-card panel-promo">
+      <h3 class="panel-title">Sign in for your best experience</h3>
+      <button class="signin-btn" onclick="openAuth()">Sign in securely</button>
+      <div class="promo-box">
+        <div class="promo-headline">Get 15% off your<br/>first order</div>
+        <div class="promo-code-pill">Use Code: <strong>WELCOME15</strong></div>
+        <div class="promo-note">No minimum spend.</div>
+        <div class="promo-imgs">
+          <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=95&h=75&fit=crop" alt="Stacked boxes and a mobile device displayed together in a shopping scene, illustrating convenient digital commerce"/>
+          <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=95&h=75&fit=crop" alt="Warm-toned promotional graphic featuring bold sale styling, inviting customers with an enthusiastic welcome offer"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-card">
+    <h2 class="section-title">Shop our Categories</h2>
+    <div class="categories-grid" id="categoriesGrid"></div>
+  </div>
+
+  <div class="section section-card">
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Sort by:</label>
+        <select onchange="handleSort(this.value)">
+          <option value="">Featured</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Max Price:</label>
+        <input type="range" min="10" max="2000" value="2000" step="10"
+          id="priceRange" oninput="handlePriceFilter(this.value)"/>
+        <span class="price-display" id="priceDisplay">R2,000</span>
+      </div>
+      <div class="filter-group" id="activeFilterWrap" style="display:none">
+        <label>Filtering:</label>
+        <span class="active-filter" id="activeFilter"></span>
+        <button onclick="clearFilters()" class="clear-filter-btn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-card" id="products">
+    <h2 class="section-title" id="productsTitle">Featured Products</h2>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <div class="section section-card" id="recoSection">
+    <h2 class="section-title">⭐ You May Also Like</h2>
+    <div class="reco-grid" id="recoGrid"></div>
+  </div>
+</main>
+
+<div class="page" id="page-wishlist">
+  <div class="section">
+    <button class="back-btn" onclick="showPage('home')">← Back to Shopping</button>
+    <h2 class="section-title">Your Wishlist</h2>
+    <div id="wishlistContent"></div>
+  </div>
+</div>
+
+<div class="page" id="page-deals">
+  <div class="section">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <h2 class="section-title">Today's Hot Deals</h2>
+    <div class="products-grid" id="dealsGrid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-top-bar">
+    <a onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</a>
+  </div>
+  <div class="footer-links">
+    <div class="footer-col">
+      <h4>Get to Know Us</h4>
+      <a href="#">About Amazon</a>
+      <a href="#">Careers</a>
+      <a href="#">Press Releases</a>
+    </div>
+    <div class="footer-col">
+      <h4>Make Money with Us</h4>
+      <a href="#">Sell on Amazon</a>
+      <a href="#">Become an Affiliate</a>
+      <a href="#">Advertise Your Products</a>
+    </div>
+    <div class="footer-col">
+      <h4>Payment Products</h4>
+      <a href="#">Amazon Business Card</a>
+      <a href="#">Shop with Points</a>
+      <a href="#">Reload Your Balance</a>
+    </div>
+    <div class="footer-col">
+      <h4>Let Us Help You</h4>
+      <a href="#">Your Account</a>
+      <a href="#">Your Orders</a>
+      <a href="#">Help</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div style=" display:flex; gap:40px ; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
+  <p>Conditions of Use & Sale</p> 
+  <p>Privacy Notice</p>
+  <p>Cookies Notice</p>
+  <p>Legal Notice </p>
+  <p>Interest-Based Ads Notice</p>
+</div>
+     
+    <p>© 2026 Amazon.com clone, Inc or its affiliates</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
